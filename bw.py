@@ -1,5 +1,6 @@
 import sys
 import re
+from block_state import BlockState
 
 
 # alter configs from plain text to coded list
@@ -63,9 +64,9 @@ def parse_file(file):
     while '' in init:
         init.remove('')
 
-    for str in init:
-        if str.isspace():
-            init.remove(str)
+    for text in init:
+        if text.isspace():
+            init.remove(text)
     init.remove(":INIT ")
     init.remove('HANDEMPTY')
     print(init)
@@ -87,9 +88,9 @@ def parse_file(file):
     while '' in goal:
         goal.remove('')
 
-    for str in goal:
-        if str.isspace():
-            goal.remove(str)
+    for text in goal:
+        if text.isspace():
+            goal.remove(text)
     print(goal)
 
     begin_config = create_config(objects, init)
@@ -106,13 +107,18 @@ def main():
 
     """
 
-    file = open('probBLOCKS-4-0.pddl.txt', 'r')
+    file = open('probBLOCKS-4-1.pddl.txt', 'r')
 
     objects, begin_config, goal_config = parse_file(file)
 
     print(objects)
     print(begin_config)
     print(goal_config)
+
+    state = BlockState(begin_config, len(begin_config), objects)
+    state.expand()
+    for child in state.children:
+        print(child.config, child.action)
 
     '''
     if sm == "bfs":
