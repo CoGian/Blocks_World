@@ -1,5 +1,6 @@
 import sys
 import re
+import search as s
 from block_state import BlockState
 
 
@@ -107,7 +108,7 @@ def main():
 
     """
 
-    file = open('probBLOCKS-4-1.pddl.txt', 'r')
+    file = open('probBLOCKS-4-0.pddl.txt', 'r')
 
     objects, begin_config, goal_config = parse_file(file)
 
@@ -116,9 +117,13 @@ def main():
     print(goal_config)
 
     state = BlockState(begin_config, len(begin_config), objects)
-    state.expand()
+
     for child in state.children:
         print(child.config, child.action)
+    state, nodes, max_depth = s.bfs_search(state, 'bfs', goal_config)
+    print(state.config)
+    print(s.calculate_path_to_goal(state))
+
 
     '''
     if sm == "bfs":

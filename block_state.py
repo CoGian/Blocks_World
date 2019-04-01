@@ -30,20 +30,18 @@ class BlockState(object):
                 clear_cubes_indexes = self.find_others_free_cubes(index_of_cube1)
 
                 # if there are free cubes move cube1 over other free cube and create a child(new configuration of cubes)
-                if len(clear_cubes_indexes) != 0 :
+                for index in clear_cubes_indexes:
+                    new_config = list(self.config)
+                    new_config[index] = index_of_cube1
 
-                    for index in clear_cubes_indexes:
-                        new_config = list(self.config)
-                        new_config[index] = index_of_cube1
-
-                        if self.is_on_table(index_of_cube1):
-                            action = 'Move(' + self.objects[index_of_cube1] + ',' + 'table' + ',' + self.objects[index] + ')'
-                        else:
-                            action = 'Move(' + self.objects[index_of_cube1] + ',' + self.objects[self.config.index(index_of_cube1)] \
+                    if self.is_on_table(index_of_cube1):
+                        action = 'Move(' + self.objects[index_of_cube1] + ',' + 'table' + ',' + self.objects[index] + ')'
+                    else:
+                        action = 'Move(' + self.objects[index_of_cube1] + ',' + self.objects[self.config.index(index_of_cube1)] \
                                      + ',' + self.objects[index] + ')'
 
-                        child = BlockState(tuple(new_config), self.n, self.objects, parent=self, action=action, cost=self.cost+1)
-                        self.children.append(child)
+                    child = BlockState(tuple(new_config), self.n, self.objects, parent=self, action=action, cost=self.cost+1)
+                    self.children.append(child)
 
                 # if cube1 not on table move cube1 on table  and create a child(new configuration of cubes)
                 if not self.is_on_table(index_of_cube1):
@@ -78,3 +76,4 @@ class BlockState(object):
 
     def __lt__(self, other):
         return  self.config < other.config
+
