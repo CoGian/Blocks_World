@@ -10,6 +10,8 @@ def bfs_search(initial_state: BlockState, goal_config):
     # initialize frontier and explored
     frontier = Frontier()
     frontier.queue.append(initial_state)
+
+    # frontier_configs is used just to search
     frontier_configs = set()
     frontier_configs.add(initial_state.config)
     explored = Explored()
@@ -99,9 +101,6 @@ def a_star_search(initial_state, goal_config):
     entry_finder[initial_state.config] = entry
     heapq.heappush(frontier.heap, entry)
 
-    frontier_configs = set( )
-    frontier_configs.add(initial_state.config)
-
     explored = Explored()
 
     max_depth = 0
@@ -110,7 +109,6 @@ def a_star_search(initial_state, goal_config):
     while frontier.heap:
 
         state = heapq.heappop(frontier.heap)
-        frontier_configs.remove(state[1].config)
         del entry_finder[state[1].config]
         explored.set.add(state[1].config)
 
@@ -131,11 +129,10 @@ def a_star_search(initial_state, goal_config):
                 max_depth += 1
 
             entry = (child.f, child)
-            if child.config not in explored.set and child.config not in frontier_configs:
+            if child.config not in explored.set and child.config not in entry_finder:
 
                 entry_finder[child.config] = entry
                 heapq.heappush(frontier.heap, entry)
-                frontier_configs.add(child.config)
 
             elif child.config in entry_finder and child.f < entry_finder[child.config][0]:
 

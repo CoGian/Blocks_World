@@ -116,7 +116,7 @@ def main():
 
     """
 
-    file = open('probBLOCKS-8-0.pddl.txt', 'r')
+    file = open('probBLOCKS-7-0.pddl.txt', 'r')
 
     objects, begin_config, goal_config = parse_file(file)
 
@@ -127,10 +127,8 @@ def main():
     state = BlockState(begin_config, len(begin_config), objects)
 
     start_time = time.time( )
-    for child in state.children:
-        print(child.config , child.action)
 
-    state, nodes, max_depth = s.a_star_search(state, goal_config)
+    state, nodes, max_depth = s.bfs_search(state, goal_config)
     print(state.config)
     moves, intmoves = s.calculate_path_to_goal(state)
     print(moves )
