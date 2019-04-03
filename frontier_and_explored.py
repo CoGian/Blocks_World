@@ -1,9 +1,10 @@
 from collections import deque
 
+
 # TODO : MAKE IT MORE CLEAR
 class Frontier(object):
 
-    def __init__(self, method):
+    def __init__(self):
 
 
             'FIFO'
@@ -21,11 +22,11 @@ class Frontier(object):
         # custom method compares only configs#
         if self.queue:
             for element in self.queue:
-                if item.config == element.config:
+                if tuple(map(tuple, item.config)) == element.config:
                     return True
         elif self.stack:
             for element in self.stack:
-                if item.config == element.config:
+                if tuple(map(tuple, item.config)) == element.config:
                     return True
         else:
             for element in self.heap:

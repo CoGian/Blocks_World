@@ -1,28 +1,36 @@
 import sys
+import time
 import re
 import search as s
 from block_state import BlockState
 
 
-# alter configs from plain text to coded list
-# Values in config will be
-# -1 = cube is clear OR
-# j = cube i has the cube j over it
+'''
+Alter configs from plain text to coded list
+values in config will be
+-1 = cube is clear OR
+or  j = cube over it
+AND  x = cube  under it
+or -1 = cube is on table
+'''
+
+
 def create_config(objects, state_in_text):
 
-    config = []
+    config = list()
 
     # initialize all cubes with -1
     for i in range(len(objects)):
-        config.append(-1)
+        config.append([-1, -1])
 
     for text in state_in_text:
         tokens = re.split('[ ]', text)
         if tokens[0] == 'ON':
             index1, index2 = objects.index(tokens[1]), objects.index(tokens[2])
-            config[index2] = index1
+            config[index2][0] = index1
+            config[index1][1] = index2
 
-    return tuple(config)
+    return tuple(map(tuple, config))
 
 
 def parse_file(file):
@@ -108,21 +116,28 @@ def main():
 
     """
 
-    file = open('probBLOCKS-4-0.pddl.txt', 'r')
+    file = open('probBLOCKS-8-0.pddl.txt', 'r')
 
     objects, begin_config, goal_config = parse_file(file)
 
     print(objects)
     print(begin_config)
-    print(goal_config)
+    print("goal" , goal_config)
 
     state = BlockState(begin_config, len(begin_config), objects)
 
+    start_time = time.time( )
     for child in state.children:
-        print(child.config, child.action)
-    state, nodes, max_depth = s.bfs_search(state, 'bfs', goal_config)
+        print(child.config , child.action)
+
+    state, nodes, max_depth = s.a_star_search(state, goal_config)
     print(state.config)
-    print(s.calculate_path_to_goal(state))
+    moves, intmoves = s.calculate_path_to_goal(state)
+    print(moves )
+    print( intmoves , nodes)
+    print(time.time()-start_time)
+
+
 
 
     '''
