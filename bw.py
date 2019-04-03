@@ -1,4 +1,5 @@
 import sys
+import os
 import time
 import re
 import search as s
@@ -115,25 +116,27 @@ def main():
     file_name = sys.argv[2]
 
     """
+    data_folder = os.path.join("input_files")
 
-    file = open('probBLOCKS-7-0.pddl.txt', 'r')
+    file_to_open = os.path.join(data_folder, "probBLOCKS-7-0.pddl.txt")
+    with open(file_to_open,'r') as f:
 
-    objects, begin_config, goal_config = parse_file(file)
+        objects, begin_config, goal_config = parse_file(f)
 
-    print(objects)
-    print(begin_config)
-    print("goal" , goal_config)
+        print(objects)
+        print(begin_config)
+        print("goal" , goal_config)
 
-    state = BlockState(begin_config, len(begin_config), objects)
+        state = BlockState(begin_config, len(begin_config), objects)
 
-    start_time = time.time( )
+        start_time = time.time( )
 
-    state, nodes, max_depth = s.bfs_search(state, goal_config)
-    print(state.config)
-    moves, intmoves = s.calculate_path_to_goal(state)
-    print(moves )
-    print( intmoves , nodes)
-    print(time.time()-start_time)
+        state, nodes, max_depth = s.a_star_search(state, goal_config)
+        print(state.config)
+        moves, intmoves = s.calculate_path_to_goal(state)
+        print(moves )
+        print( intmoves , nodes)
+        print(time.time()-start_time)
 
 
 
