@@ -48,7 +48,7 @@ class BlockState(object):
                     new_config[cube1[1]][0] = -1
                     new_config[index_of_cube1][1] = -1
 
-                    if not self.is_same_with_a_predecessor(new_config):
+                    if not self.is_same_with_predecessor(new_config):
                         action = 'Move(' + self.objects[index_of_cube1] + ',' + self.objects[cube1[1]] + ',table)'
 
                         # create child
@@ -71,12 +71,16 @@ class BlockState(object):
                     new_config[index_of_cube2][0] = index_of_cube1
                     new_config[index_of_cube1][1] = index_of_cube2
 
-                    if not self.is_same_with_a_predecessor(new_config):
+                    if not is_on_table(cube1):
+                        new_config[cube1[1]][0] = -1
+
+                    if not self.is_same_with_predecessor(new_config):
 
                         if is_on_table(cube1):
                             action = 'Move(' + self.objects[index_of_cube1] + ',' + 'table' + ',' + self.objects[
                                 index_of_cube2] + ')'
                         else:
+
                             action = 'Move(' + self.objects[index_of_cube1] + ',' + self.objects[cube1[1]] \
                                      + ',' + self.objects[index_of_cube2] + ')'
                         # create child
@@ -98,20 +102,25 @@ class BlockState(object):
             index_of_cube2 += 1
         return clear_cubes_indexes
 
-    def is_same_with_a_predecessor(self,new_config):
+    def is_same_with_predecessor(self, new_config):
 
         state = self
-        while state.parent is not None:
+        if state.parent is not None:
             if list(map(list, state.parent.config)) == new_config:
                 return True
-            state = state.parent
         return False
 
     def __eq__(self, other):
+        if type(other) is str:
+            return False
         return self.config == tuple(map(tuple,other.config))
 
     def __lt__(self, other):
+        if type(other) is str:
+            return False
         return self.config < tuple(map(tuple,other.config))
 
     def __gt__(self, other):
+        if type(other) is str:
+            return False
         return self.config > tuple(map(tuple,other.config))

@@ -9,20 +9,20 @@ def bfs_search(initial_state: BlockState, goal_config):
     """BFS search"""
 
     # initialize frontier and explored
-    frontier = Frontier()
-    frontier.queue.append(initial_state)
+    frontier = Frontier().queue
+    frontier.append(initial_state)
 
     # frontier_configs is used just to search
     frontier_configs = set()
     frontier_configs.add(initial_state.config)
-    explored = Explored()
+    explored = Explored().set
 
     max_depth = 0
     nodes = 0
-    while frontier.queue:
-        state = frontier.queue.popleft()
+    while frontier:
+        state = frontier.popleft()
         frontier_configs.remove(state.config)
-        explored.set.add(state.config)
+        explored.add(state.config)
 
         # check if this state is goal state
         if state.config == goal_config:
@@ -37,8 +37,8 @@ def bfs_search(initial_state: BlockState, goal_config):
             "check for duplicates in frontier and explored"
             if max_depth < child.cost:
                 max_depth += 1
-            if child.config not in explored.set and child.config not in frontier_configs:
-                frontier.queue.append(child)
+            if child.config not in explored and child.config not in frontier_configs:
+                frontier.append(child)
                 frontier_configs.add(child.config)
     print('FAILURE')
     exit()
@@ -48,20 +48,20 @@ def dfs_search(initial_state: BlockState, goal_config):
     """DFS search"""
 
     # initialize frontier and explored
-    frontier = Frontier()
-    frontier.stack.append(initial_state)
+    frontier = Frontier().stack
+    frontier.append(initial_state)
     frontier_configs = set()
     frontier_configs.add(initial_state.config)
-    explored = Explored()
+    explored = Explored().set
 
     max_depth = 0
     nodes = 0
-    while frontier.stack:
-        state = frontier.stack.pop()
+    while frontier:
+        state = frontier.pop()
         frontier_configs.remove(state.config)
 
-        if state.config not in explored.set:
-            explored.set.add(state.config)
+        if state.config not in explored:
+            explored.add(state.config)
 
             if max_depth < state.cost:
                 max_depth += 1
@@ -85,7 +85,7 @@ def dfs_search(initial_state: BlockState, goal_config):
                     max_depth += 1
 
                 if child.config not in frontier_configs :
-                    frontier.stack.append(child)
+                    frontier.append(child)
                     frontier_configs.add(child.config)
     print('FAILURE')
     exit()
@@ -94,58 +94,75 @@ def dfs_search(initial_state: BlockState, goal_config):
 def a_star_search(initial_state, goal_config):
     """A * search"""
 
-    frontier = Frontier()  # list of entries arranged in a heap
+    frontier = Frontier().heap  # list of entries arranged in a heap
     entry_finder = {}  # mapping of states to entries
 
     initial_state.f = h(initial_state.config, goal_config)
-    entry = (initial_state.f, initial_state)
-    entry_finder[initial_state.config] = entry
-    heapq.heappush(frontier.heap, entry)
+    add_state(initial_state, entry_finder, frontier)
 
-    explored = Explored()
+    explored = Explored().set
 
     max_depth = 0
     nodes = 0
 
-    while frontier.heap:
+    while frontier:
 
-        state = heapq.heappop(frontier.heap)
-        del entry_finder[state[1].config]
-        explored.set.add(state[1].config)
+        state = pop_state(frontier, entry_finder)
 
-        if state[1].config == goal_config:
-            print("SUCCESS")
-            return state[1], nodes, max_depth
+        if state.config not in explored:
+            explored.add(state.config)
 
-        "expand the node"
+            if state.config == goal_config:
+                print("SUCCESS")
+                return state, nodes, max_depth
 
-        state[1].expand()
+            "expand the node"
 
-        nodes = nodes + 1
-        print(nodes)
-        for child in state[1].children:
-            "check for duplicates in frontier and explored"
-            child.f = child.cost + h(child.config, goal_config)
-            if max_depth < child.cost:
-                max_depth += 1
+            state.expand()
 
-            entry = (child.f, child)
-            if child.config not in explored.set and child.config not in entry_finder:
+            nodes = nodes + 1
+            print(nodes)
+            for child in state.children:
+                "check for duplicates in frontier and explored"
+                child.f = child.cost + h(child.config, goal_config)
+                if max_depth < child.cost:
+                    max_depth += 1
 
-                entry_finder[child.config] = entry
-                heapq.heappush(frontier.heap, entry)
+                if child.config not in entry_finder:
 
-            elif child.config in entry_finder and child.f < entry_finder[child.config][0]:
+                    add_state(child, entry_finder, frontier)
 
-                index = frontier.heap.index((entry_finder[child.config][1].f, entry_finder[child.config][1]))
+                elif child.f < entry_finder[child.config][0]:
 
-                frontier.heap[int(index)] = entry
+                    remove_state(child.config, entry_finder)
+                    add_state(child, entry_finder, frontier)
 
-                entry_finder[child.config] = entry
-
-                heapq.heapify(frontier.heap)
     print('FAILURE')
     exit()
+
+
+def add_state(state, entry_finder, frontier):
+    'Add a new task or update the priority of an existing task'
+    if state.config in entry_finder:
+        remove_state(state.config)
+    entry = [state.f, state]
+    entry_finder[state.config] = entry
+    heapq.heappush(frontier, entry)
+
+
+def remove_state(config, entry_finder):
+    'Mark an existing task as REMOVED.  Raise KeyError if not found.'
+    entry = entry_finder.pop(config)
+    entry[-1] = '<removed-task>'
+
+
+def pop_state(frontier,entry_finder):
+    'Remove and return the lowest priority task. Raise KeyError if empty.'
+    while frontier:
+        state = heapq.heappop(frontier)
+        if state[1] != '<removed-task>':
+            del entry_finder[state[1].config]
+            return state[1]
 
 
 def h(config, goal_config):
@@ -174,7 +191,6 @@ def calculate_path_to_goal(state):
         movedcube = objects.index(action[1])
         prevplace = action[2]
         currplace = action[3]
-        
 
         # if previous place is table change the state of current place to clear (-1) and the state of moved cube to
         # on table(-1)
