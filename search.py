@@ -170,9 +170,7 @@ def h(config, goal_config):
     index = 0
     for cube in config :
 
-        if cube[0] != goal_config[index][0] :
-            cost += 1
-        if cube[1] != goal_config[index][1] :
+        if cube[0] != goal_config[index][0]:
             cost += 1
         index += 1
     return cost
