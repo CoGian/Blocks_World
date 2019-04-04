@@ -10,11 +10,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/bw.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="214">
-              <caret line="123" selection-start-line="123" selection-end-line="123" />
+            <state relative-caret-position="27">
+              <caret line="124" selection-start-line="124" selection-end-line="124" />
               <folding>
                 <element signature="e#0#10#0" expanded="true" />
               </folding>
@@ -25,17 +25,17 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/block_state.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1258">
-              <caret line="74" selection-start-line="74" selection-end-line="74" />
+            <state relative-caret-position="-789">
+              <caret line="32" column="30" selection-start-line="32" selection-start-column="30" selection-end-line="32" selection-end-column="30" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/search.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2448">
-              <caret line="144" column="44" selection-start-line="144" selection-start-column="44" selection-end-line="144" selection-end-column="44" />
+            <state relative-caret-position="435">
+              <caret line="197" column="21" selection-start-line="197" selection-start-column="21" selection-end-line="197" selection-end-column="21" />
               <folding>
                 <element signature="e#0#52#0" expanded="true" />
               </folding>
@@ -69,8 +69,8 @@
         <option value="$USER_HOME$/Desktop/Blocks_World-master/bw.py" />
         <option value="$PROJECT_DIR$/frontier_and_explored.py" />
         <option value="$PROJECT_DIR$/block_state.py" />
-        <option value="$PROJECT_DIR$/search.py" />
         <option value="$PROJECT_DIR$/bw.py" />
+        <option value="$PROJECT_DIR$/search.py" />
       </list>
     </option>
   </component>
@@ -101,6 +101,7 @@
     </panes>
   </component>
   <component name="PropertiesComponent">
+    <property name="last.edited.regexp" value="Move(D,A,table" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/bw.py" />
   </component>
   <component name="RunDashboard">
@@ -186,7 +187,7 @@
     <editor active="true" />
     <layout>
       <window_info id="Favorites" order="0" side_tool="true" />
-      <window_info content_ui="combo" id="Project" order="1" visible="true" weight="0.1278649" />
+      <window_info active="true" content_ui="combo" id="Project" order="1" visible="true" weight="0.1278649" />
       <window_info id="Structure" order="2" side_tool="true" weight="0.25" />
       <window_info anchor="bottom" id="Terminal" order="0" sideWeight="0.49939686" weight="0.32922733" />
       <window_info anchor="bottom" id="Event Log" order="1" sideWeight="0.50060314" side_tool="true" weight="0.32922733" />
@@ -194,7 +195,7 @@
       <window_info anchor="bottom" id="Python Console" order="3" weight="0.32922733" />
       <window_info anchor="bottom" id="Message" order="4" />
       <window_info anchor="bottom" id="Find" order="5" />
-      <window_info active="true" anchor="bottom" id="Run" order="6" visible="true" weight="0.32586786" />
+      <window_info anchor="bottom" id="Run" order="6" visible="true" weight="0.32586786" />
       <window_info anchor="bottom" id="Debug" order="7" weight="0.39977604" />
       <window_info anchor="bottom" id="Cvs" order="8" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="9" weight="0.4" />
@@ -266,17 +267,9 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/probBLOCKS-4-1.pddl.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="51">
-          <caret line="3" column="68" lean-forward="true" selection-start-line="3" selection-start-column="68" selection-end-line="3" selection-end-column="68" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/probBLOCKS-4-1.pddl.txt" />
     <entry file="file://$PROJECT_DIR$/probBLOCKS-19-1.pddl.txt" />
-    <entry file="file://$PROJECT_DIR$/probBLOCKS-13-0.pddl.txt">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
+    <entry file="file://$PROJECT_DIR$/probBLOCKS-13-0.pddl.txt" />
     <entry file="file://$APPLICATION_HOME_DIR$/helpers/pydev/pydevd.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="369">
@@ -291,13 +284,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/probBLOCKS-8-0.pddl.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="4" column="20" selection-start-line="4" selection-start-column="20" selection-end-line="4" selection-end-column="73" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/probBLOCKS-8-0.pddl.txt" />
     <entry file="file://$USER_HOME$/Desktop/Blocks_World-master/search.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="986">
@@ -332,6 +319,8 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/probBLOCKS-6-0.pddl.txt" />
+    <entry file="file://$PROJECT_DIR$/probBLOCKS-4-0.pddl.txt" />
     <entry file="file://$PROJECT_DIR$/frontier_and_explored.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="476">
@@ -339,39 +328,29 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/probBLOCKS-6-0.pddl.txt">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/probBLOCKS-4-0.pddl.txt">
+    <entry file="file://$PROJECT_DIR$/bw.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="102">
-          <caret line="6" column="1" selection-start-line="6" selection-start-column="1" selection-end-line="6" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/search.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2448">
-          <caret line="144" column="44" selection-start-line="144" selection-start-column="44" selection-end-line="144" selection-end-column="44" />
+        <state relative-caret-position="27">
+          <caret line="124" selection-start-line="124" selection-end-line="124" />
           <folding>
-            <element signature="e#0#52#0" expanded="true" />
+            <element signature="e#0#10#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/block_state.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1258">
-          <caret line="74" selection-start-line="74" selection-end-line="74" />
+        <state relative-caret-position="-789">
+          <caret line="32" column="30" selection-start-line="32" selection-start-column="30" selection-end-line="32" selection-end-column="30" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/bw.py">
+    <entry file="file://$PROJECT_DIR$/search.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="214">
-          <caret line="123" selection-start-line="123" selection-end-line="123" />
+        <state relative-caret-position="435">
+          <caret line="197" column="21" selection-start-line="197" selection-start-column="21" selection-end-line="197" selection-end-column="21" />
           <folding>
-            <element signature="e#0#10#0" expanded="true" />
+            <element signature="e#0#52#0" expanded="true" />
           </folding>
         </state>
       </provider>

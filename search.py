@@ -1,6 +1,7 @@
 from frontier_and_explored import Frontier, Explored
 from block_state import BlockState
 import heapq
+import re
 
 
 # TODO : ADD MORE COMMENTS FOR GOD'S SHAKE
@@ -161,13 +162,37 @@ def h(config, goal_config):
 
 
 def calculate_path_to_goal(state):
-    """calculate the path to goal"""
+    """calculate the path to goal and check if solution is valid"""
     moves = list()
-
+    config = list(map(list,state.config))
+    objects = state.objects
     while state.parent is not None:
         moves.append(state.action)
+
+        action = re.split("[(,)]", state.action)
+        # initialize
+        movedcube = objects.index(action[1])
+        prevplace = action[2]
+        currplace = action[3]
+
+        # if previous place is table change the state of current place to clear (-1) and the state of moved cube to
+        # on table(-1)
+        if prevplace == 'table':
+            config[objects.index(currplace)][0] = -1
+            config[movedcube][1] = -1
+        # if else  current place is table change the state of previous place to bellow of moved cube
+        # and the state of moved cube to above previous place
+        elif currplace == 'table':
+            config[objects.index(prevplace)][0] = movedcube
+            config[movedcube][1] = objects.index(prevplace)
+        # else change the state of current place to clear(-1) , the state of previous place to bellow moved cube
+        # and the state of moved cube to above previous place
+        else:
+            config[objects.index(currplace)][0] = -1
+            config[objects.index(prevplace)][0] = movedcube
+            config[movedcube][1] = objects.index(prevplace)
         state = state.parent
 
     moves = moves[::-1]
 
-    return str(moves) , len(moves)
+    return str(moves), len(moves), config == list(map(list, state.config))

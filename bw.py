@@ -118,8 +118,8 @@ def main():
     """
     data_folder = os.path.join("input_files")
 
-    file_to_open = os.path.join(data_folder, "probBLOCKS-7-0.pddl.txt")
-    with open(file_to_open,'r') as f:
+    file_to_open = os.path.join(data_folder, "probBLOCKS-6-0.pddl.txt")
+    with open(file_to_open, 'r') as f:
 
         objects, begin_config, goal_config = parse_file(f)
 
@@ -131,13 +131,14 @@ def main():
 
         start_time = time.time( )
 
-        state, nodes, max_depth = s.a_star_search(state, goal_config)
+        state, nodes, max_depth = s.dfs_search(state, goal_config)
         print(state.config)
-        moves, intmoves = s.calculate_path_to_goal(state)
+        moves, intmoves , valid = s.calculate_path_to_goal(state)
         print(moves )
         print( intmoves , nodes)
         print(time.time()-start_time)
-
+        if valid:
+            print('valid')
 
 
 
