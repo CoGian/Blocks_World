@@ -174,6 +174,7 @@ def calculate_path_to_goal(state):
         movedcube = objects.index(action[1])
         prevplace = action[2]
         currplace = action[3]
+        
 
         # if previous place is table change the state of current place to clear (-1) and the state of moved cube to
         # on table(-1)
