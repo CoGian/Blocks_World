@@ -1,2 +1,0 @@
-['Move(E,G,table)', 'Move(G,B,table)', 'Move(B,A,table)', 'Move(A,F,table)', 'Move(F,C,E)', 'Move(C,D,F)', 'Move(B,table,C)', 'Move(D,table,B)', 'Move(G,table,D)', 'Move(A,table,G)']
-['Move(E,G,table)', 'Move(G,B,table)', 'Move(B,A,table)', 'Move(A,F,G)', 'Move(F,C,E)', 'Move(C,D,F)', 'Move(B,table,C)', 'Move(D,table,B)', 'Move(A,G,table)', 'Move(G,table,D)', 'Move(A,table,G)']
