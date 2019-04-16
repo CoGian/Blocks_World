@@ -19,7 +19,7 @@ class Frontier(object):
 
     def __contains__(self, item):
 
-        # custom method compares only configs#
+        # custom method compares only configs
         if self.queue:
             for element in self.queue:
                 if tuple(map(tuple, item.config)) == element.config:

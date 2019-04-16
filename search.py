@@ -242,6 +242,56 @@ def h1(config, goal_config):
     return cost
 
 
+'''
+Heuristic 4 - this heuristic is twice the number of blocks that must be moved once plus four times the number of blocks
+that must be moved twice. A block that must be moved once is a block that is currently on a block different to 
+the block upon which it rests in the goal state or a block that has such a block somewhere below it in the same pile.
+A block that must be moved twice is a block that is currently on the block upon which it must be placed in the goal 
+state, but that block is a block that must be moved or if there exists a block that must be moved twice somewhere below 
+it (in the same pile). 
+'''
+
+
+def h2(config, goal_config):
+
+    index = 0
+    one_move_cubes = set()
+    two_move_cubes = set()
+    for cube in config:
+
+        # check if cube is a block that must be moved once
+        if cube[0] != goal_config[index][0]:
+            one_move_cubes.add(cube)
+        else:
+            # check if cube has  a block that must be moved once somewhere below it
+            index_of_cube_bellow = cube[0]
+            while True:
+                if index_of_cube_bellow == -1: break
+                if config[index_of_cube_bellow] in one_move_cubes:
+                    one_move_cubes.add(cube)
+                    break
+                index_of_cube_bellow = config[index_of_cube_bellow][0]
+
+            # check if cube must be moved twice
+            index_of_cube_bellow = cube[0]
+            if config[index_of_cube_bellow] in one_move_cubes or config[index_of_cube_bellow] in two_move_cubes :
+                two_move_cubes.add(cube)
+                one_move_cubes.discard(cube)
+
+            # check if cube has  a block that must be moved twice somewhere below it
+            index_of_cube_bellow = config[index_of_cube_bellow][0]
+            while True:
+                if index_of_cube_bellow == -1: break
+                if config[index_of_cube_bellow] in two_move_cubes:
+                    two_move_cubes.add(cube)
+                    break
+                index_of_cube_bellow = config[index_of_cube_bellow][0]
+
+        index += 1
+
+    return len(one_move_cubes) * 2 + len(two_move_cubes) * 4
+
+
 def calculate_path_to_goal(state):
     """calculate the path to goal and check if solution is valid"""
     moves = list( )
