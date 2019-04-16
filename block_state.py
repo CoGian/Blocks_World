@@ -14,7 +14,7 @@ class BlockState(object):
 
         self.n = n
 
-        self.cost = cost      # int
+        self.cost = cost      # int g cost
 
         self.parent = parent  # BlockState
 
@@ -28,9 +28,9 @@ class BlockState(object):
 
         self.children = []  # list
 
-        self.f = f
+        self.f = f    # f cost
 
-        self.objects = objects
+        self.objects = objects  # a string array which indicates in which place in config is every cube
 
     def expand(self):
 
