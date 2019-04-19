@@ -24,17 +24,20 @@ def main():
         print(begin_config)
         print("goal" , goal_config)
 
-        state = BlockState(begin_config, len(begin_config), objects)
+        initial_state = BlockState(begin_config, len(begin_config), objects)
         start_time = time.time( )
 
-        state, nodes, max_depth = s.a_star_search(state, goal_config)
+        state, nodes, max_depth = s.dfs_search(initial_state, goal_config)
         print(state.config)
-        moves, intmoves, valid = s.calculate_path_to_goal(state)
+        moves, intmoves = s.calculate_path_to_goal(state)
+        valid = s.is_valid(initial_state, moves, goal_config)
         print(moves )
         print( intmoves , nodes)
         print(time.time()-start_time)
         if valid:
             print('valid')
+        else:
+            print('no valid')
 
 
 
