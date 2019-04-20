@@ -4,7 +4,7 @@ import search as s
 from block_state import BlockState
 from utils import parse_file, write_in_file
 
-"""Usage : python bw <method> <problem file> <solution file>"""
+"""Usage : python bw.py <method> <problem file> <solution file>"""
 
 
 def main():
@@ -47,9 +47,9 @@ def main():
 
             valid = s.is_valid(initial_state, moves, goal_config)
             if valid:
-                print('Valid solution')
+                print('valid_solution: true')
             else:
-                print('No valid solution')
+                print('valid_solution: false')
     except EnvironmentError:
         print("File not found!")
 

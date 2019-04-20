@@ -322,9 +322,9 @@ def h2(config, goal_config):
 
 def h3(config, goal_config):
     """Heuristic 3 - this heuristic is similar to Heuristic 1. It calculates the difference between the current state
-     and the goal state, but looks at the details of each block. If Block A in the goal state is supposed to be on top
-     of Block B and under Block C and in the current state it is neither on top of B or under C, then we add 2 to the
-     heuristic."""
+    and the goal state, but looks at the details of each block. If Block A in the goal state is supposed to be on top
+    of Block B and under Block C and in the current state it is neither on top of B nor under C, then we add 2 to the
+    heuristic and if it is either on top of B or under C we add 1. """
     cost = 0
     index = 0
     for cube in config:
