@@ -1,4 +1,3 @@
-import copy
 
 
 # check if cube1 is on table
@@ -14,21 +13,21 @@ class BlockState(object):
 
         self.n = n
 
-        self.cost = cost      # int g cost
+        self.cost = cost  # int g cost
 
         self.parent = parent  # BlockState
 
         self.action = action  # string
 
         self.config = config
-        '''config is a tupple of tupples :
-        Tupples in config will be : -1 if cube is clear  or index of cube over it
+        '''config is a tuple of tuples :
+        Tuples in config will be : -1 if cube is clear  or index of cube over it
         AND   -1 if cube is on table or index of  cube under it .
         eg. : (-1,3) this cube is clear and has the cube with index 3 under it'''
 
         self.children = []  # list
 
-        self.f = f    # f cost
+        self.f = f  # f cost
 
         self.objects = objects  # a string array which indicates in which place in config is every cube
 
@@ -113,14 +112,14 @@ class BlockState(object):
     def __eq__(self, other):
         if type(other) is str:
             return False
-        return self.config == tuple(map(tuple,other.config))
+        return self.config == tuple(map(tuple, other.config))
 
     def __lt__(self, other):
         if type(other) is str:
             return False
-        return self.config < tuple(map(tuple,other.config))
+        return self.config < tuple(map(tuple, other.config))
 
     def __gt__(self, other):
         if type(other) is str:
             return False
-        return self.config > tuple(map(tuple,other.config))
+        return self.config > tuple(map(tuple, other.config))

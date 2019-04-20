@@ -1,6 +1,5 @@
 import re
 
-
 '''
 Alter configs from plain text to coded list
 values in config will be
@@ -12,7 +11,6 @@ or -1 = cube is on table
 
 
 def create_config(objects, state_in_text):
-
     config = list()
 
     # initialize all cubes with -1
@@ -33,14 +31,14 @@ def parse_file(file):
     # read objects till find the line with init
 
     while True:
-        line = file.readline( )
+        line = file.readline()
         if "objects" in line:
             break
 
     objects = re.split("[ \n]", line)
 
     while True:
-        line = file.readline( )
+        line = file.readline()
         if ":INIT" not in line:
             objects.extend(re.split("[ \n)]", line))
         else:
@@ -54,12 +52,11 @@ def parse_file(file):
     while ')' in objects:
         objects.remove(')')
 
-    print(objects)
     # read initial state till find line with goal
     init = re.split('[()\n]', line)
 
     while True:
-        line = file.readline( )
+        line = file.readline()
         if ":goal" not in line:
             init.extend(re.split('[()\n]', line))
         else:
@@ -74,13 +71,12 @@ def parse_file(file):
             init.remove(text)
     init.remove(":INIT ")
     init.remove('HANDEMPTY')
-    print(init)
 
     # read goal state till find line with EOF
     goal = re.split('[()\n]', line)
 
     while True:
-        line = file.readline( )
+        line = file.readline()
         if not line:
             break
         else:
@@ -96,9 +92,16 @@ def parse_file(file):
     for text in goal:
         if text.isspace():
             goal.remove(text)
-    print(goal)
 
     begin_config = create_config(objects, init)
     goal_config = create_config(objects, goal)
 
     return objects, begin_config, goal_config
+
+
+def write_in_file(moves, solution_file, ):
+    with open(solution_file, "w+") as f:
+        i = 1
+        for move in moves:
+            f.write(str(i) + ". " + move + "\n")
+            i += 1

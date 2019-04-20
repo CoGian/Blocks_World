@@ -2,39 +2,43 @@ from frontier_and_explored import Frontier, Explored
 from block_state import BlockState
 import heapq
 import re
+import time
+
+PERIOD_OF_TIME = 60
 
 
 def bfs_search(initial_state: BlockState, goal_config):
     """BFS search"""
+    # initialize timer
+    start_time = time.time()
 
     # initialize frontier and explored
-    frontier = Frontier( ).queue
+    frontier = Frontier().queue
     frontier.append(initial_state)
-    explored = Explored( ).set
+    explored = Explored().set
 
     # frontier_configs is used just for searching and doesn't obstructs functionality
-    frontier_configs = set( )
+    frontier_configs = set()
     frontier_configs.add(initial_state.config)
 
     # initialize metrics variable
     nodes = 0
 
-    while frontier:
+    while frontier and time.time() - start_time < PERIOD_OF_TIME:
 
         # pop the first state entered in frontier
-        state = frontier.popleft( )
+        state = frontier.popleft()
         frontier_configs.remove(state.config)
         explored.add(state.config)
 
         # check if this state is goal state
         if state.config == goal_config:
             print("SUCCESS")
-            return state, nodes, state.cost
+            return state, nodes, state.cost, time.time() - start_time
 
         # expand the state
-        state.expand( )
+        state.expand()
         nodes = nodes + 1
-        print(nodes)
 
         for child in state.children:
             # check for duplicates in frontier and explored
@@ -43,28 +47,30 @@ def bfs_search(initial_state: BlockState, goal_config):
                 frontier.append(child)
                 frontier_configs.add(child.config)
     print('FAILURE')
-    exit( )
+    exit()
 
 
 def dfs_search(initial_state: BlockState, goal_config):
     """DFS search"""
+    # initialize timer
+    start_time = time.time()
 
     # initialize frontier and explored
-    frontier = Frontier( ).stack
+    frontier = Frontier().stack
     frontier.append(initial_state)
-    explored = Explored( ).set
+    explored = Explored().set
 
     # frontier_configs is used just for searching and doesn't obstructs functionality
-    frontier_configs = set( )
+    frontier_configs = set()
     frontier_configs.add(initial_state.config)
 
     # initialize metrics variables
     max_depth = 0
     nodes = 0
-    while frontier:
+    while frontier and time.time() - start_time < PERIOD_OF_TIME:
 
         # pop the first state the last state entered in frontier
-        state = frontier.pop( )
+        state = frontier.pop()
         frontier_configs.remove(state.config)
 
         # check if state is explored
@@ -78,15 +84,14 @@ def dfs_search(initial_state: BlockState, goal_config):
             # check if this state is goal state
             if state.config == goal_config:
                 print("SUCCESS")
-                return state, nodes, max_depth
+                return state, nodes, max_depth, time.time() - start_time
 
             # expand the state
-            state.expand( )
+            state.expand()
 
             # reverse children to put it in frontier with the same priority as bfs
             state.children = state.children[::-1]
             nodes = nodes + 1
-            print(nodes)
 
             for child in state.children:
                 # check for duplicates in frontier and explored
@@ -95,16 +100,18 @@ def dfs_search(initial_state: BlockState, goal_config):
                     frontier.append(child)
                     frontier_configs.add(child.config)
     print('FAILURE')
-    exit( )
+    exit()
 
 
 def a_star_search(initial_state, goal_config):
     """A * search"""
 
-    frontier = Frontier( ).heap  # list of entries arranged in a heap
+    start_time = time.time()  # initialize timer
+
+    frontier = Frontier().heap  # list of entries arranged in a heap
     entry_finder = {}  # mapping of states to entries
 
-    explored = Explored( ).set  # a set of explored states
+    explored = Explored().set  # a set of explored states
 
     # calculate initial's states h cost and add g cost (which is 0 so no need to add it)
     initial_state.f = h1(initial_state.config, goal_config)
@@ -113,8 +120,8 @@ def a_star_search(initial_state, goal_config):
 
     # initialize metrics variable
     nodes = 0
-
-    while frontier:
+    max_depth = 0
+    while frontier and time.time() - start_time < PERIOD_OF_TIME:
         # pop the state with the smaller cost from frontier
         state = pop_state(frontier, entry_finder)
 
@@ -122,16 +129,20 @@ def a_star_search(initial_state, goal_config):
         if state.config not in explored:
             explored.add(state.config)
 
+            # update max depth
+            if max_depth < state.cost:
+                max_depth = state.cost
+
             # check if the state is goal state
             if state.config == goal_config:
                 print("SUCCESS")
-                return state, nodes, child.cost
+                return state, nodes, max_depth, time.time() - start_time
 
             # expand the state
-            state.expand( )
+            state.expand()
 
             nodes = nodes + 1
-            print(nodes)
+
             for child in state.children:
                 # calculate the cost f for child
                 child.f = child.cost + h3(child.config, goal_config)
@@ -148,13 +159,15 @@ def a_star_search(initial_state, goal_config):
                     add_state(child, entry_finder, frontier)
 
     print('FAILURE')
-    exit( )
+    exit()
 
 
 def best_first_search(initial_state, goal_config):
     """Best First search"""
 
-    frontier = Frontier( ).heap  # list of entries arranged in a heap
+    start_time = time.time()  # initialize timer
+
+    frontier = Frontier().heap  # list of entries arranged in a heap
     entry_finder = {}  # mapping of states to entries
 
     # calculate initial's states h cost
@@ -162,12 +175,12 @@ def best_first_search(initial_state, goal_config):
     # add initial state
     add_state(initial_state, entry_finder, frontier)
 
-    explored = Explored( ).set
+    explored = Explored().set
 
     max_depth = 0
     nodes = 0
 
-    while frontier:
+    while frontier and time.time() - start_time < PERIOD_OF_TIME:
         # pop the state with the smaller cost from frontier
         state = pop_state(frontier, entry_finder)
 
@@ -185,10 +198,10 @@ def best_first_search(initial_state, goal_config):
                 return state, nodes, max_depth
 
             # expand the node
-            state.expand( )
+            state.expand()
 
             nodes = nodes + 1
-            print(nodes)
+
             for child in state.children:
                 # calculate the cost f for child
                 child.f = h1(child.config, goal_config)
@@ -205,7 +218,7 @@ def best_first_search(initial_state, goal_config):
                     add_state(child, entry_finder, frontier)
 
     print('FAILURE')
-    exit( )
+    exit()
 
 
 def add_state(state, entry_finder, frontier):
@@ -245,12 +258,12 @@ def h1(config, goal_config):
 
 def h2(config, goal_config):
     """
-    Heuristic 2 - this heuristic is twice the number of blocks that must be moved once plus four times the number of blocks
-    that must be moved twice. A block that must be moved once is a block that is currently on a block different to
-    the block upon which it rests in the goal state or a block that has such a block somewhere below it in the same pile.
-    A block that must be moved twice is a block that is currently on the block upon which it must be placed in the goal
-    state, but that block is a block that must be moved or if there exists a block that must be moved twice somewhere below
-    it (in the same pile).
+    Heuristic 2 - this heuristic is twice the number of blocks that must be moved once plus four times the number of
+    blocks that must be moved twice. A block that must be moved once is a block that is currently on a block
+    different to the block upon which it rests in the goal state or a block that has such a block somewhere below it
+    in the same pile. A block that must be moved twice is a block that is currently on the block upon which it must
+    be placed in the goal state, but that block is a block that must be moved or if there exists a block that must be
+    moved twice somewhere below it (in the same pile).
     """
 
     index = 0
@@ -270,7 +283,8 @@ def h2(config, goal_config):
 
         index_of_current_cube = cube[0]
         while True:
-            if config[index_of_current_cube][0] == -1: break
+            if config[index_of_current_cube][0] == -1:
+                break
             # check if cube is a block that must be moved once
             if config[index_of_current_cube][1] != goal_config[index_of_current_cube][1]:
                 one_move_cubes.add(config[index_of_current_cube])
@@ -281,7 +295,7 @@ def h2(config, goal_config):
                     if config[index_of_cube_bellow] in one_move_cubes:
                         one_move_cubes.add(config[index_of_current_cube])
                         break
-                    elif config[index_of_cube_bellow][1] == -1 :
+                    elif config[index_of_cube_bellow][1] == -1:
                         break
                     index_of_cube_bellow = config[index_of_cube_bellow][1]
 
@@ -298,7 +312,8 @@ def h2(config, goal_config):
                     if config[index_of_cube_bellow] in two_move_cubes:
                         two_move_cubes.add(config[index_of_current_cube])
                         break
-                    elif config[index_of_cube_bellow][1] == -1 : break
+                    elif config[index_of_cube_bellow][1] == -1:
+                        break
                     index_of_cube_bellow = config[index_of_cube_bellow][1]
 
             index_of_current_cube = config[index_of_current_cube][0]
@@ -316,7 +331,7 @@ def h3(config, goal_config):
 
         if cube[0] != goal_config[index][0] and cube[1] != goal_config[1]:
             cost += 2
-        elif  cube[0] != goal_config[index][0] or cube[1] != goal_config[1]:
+        elif cube[0] != goal_config[index][0] or cube[1] != goal_config[1]:
             cost += 1
         index += 1
     return cost
@@ -331,10 +346,10 @@ def calculate_path_to_goal(state):
 
     moves = moves[::-1]
 
-    return moves, len(moves)
+    return moves
 
 
-def is_valid(state,moves,goal_config):
+def is_valid(state, moves, goal_config):
     """check if solution is valid"""
     config = list(map(list, state.config))
     objects = state.objects
@@ -365,11 +380,11 @@ def is_valid(state,moves,goal_config):
         # else change the state of current place to bellow of moved cube , the state of previous place to clear
         # and the state of moved cube to above current place
         else:
-            if config[movedcube][0] == -1 and config[objects.index(currplace)][0] == -1 :
+            if config[movedcube][0] == -1 and config[objects.index(currplace)][0] == -1:
                 config[objects.index(currplace)][0] = movedcube
                 config[objects.index(prevplace)][0] = -1
                 config[movedcube][1] = objects.index(currplace)
             else:
                 return False
 
-    return tuple(map(tuple,config)) == goal_config
+    return tuple(map(tuple, config)) == goal_config

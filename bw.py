@@ -1,63 +1,58 @@
 import sys
 import os
-import time
 import search as s
 from block_state import BlockState
-from utils import parse_file
+from utils import parse_file, write_in_file
+
+"""Usage : python bw <method> <problem file> <solution file>"""
 
 
 def main():
-    """
-     sm = sys.argv[1].lower()
+    try:
+        sm = sys.argv[1].lower()
+        file_to_read = sys.argv[2]
+        file_to_write = sys.argv[3]
+    except IndexError:
+        print("Enter valid command arguments !Usage : python bw.py <method> <problem file> <solution file>")
+        exit(0)
 
-    file_name = sys.argv[2]
-
-    """
     data_folder = os.path.join("input_files")
 
-    file_to_open = os.path.join(data_folder, "probBLOCKS-8-0.pddl.txt")
-    with open(file_to_open, 'r') as f:
+    file_to_open = os.path.join(data_folder, file_to_read)
+    try:
+        with open(file_to_open, 'r') as f:
 
-        objects, begin_config, goal_config = parse_file(f)
+            objects, begin_config, goal_config = parse_file(f)
 
-        print(objects)
-        print(begin_config)
-        print("goal" , goal_config)
+            initial_state = BlockState(begin_config, len(begin_config), objects)
+            if sm == "breadth":
+                state, nodes, max_depth, running_time = s.bfs_search(initial_state, goal_config)
+            elif sm == "depth":
+                state, nodes, max_depth, running_time = s.dfs_search(initial_state, goal_config)
+            elif sm == "best":
+                state, nodes, max_depth, running_time = s.best_first_search(initial_state, goal_config)
+            elif sm == "astar":
+                state, nodes, max_depth, running_time = s.a_star_search(initial_state, goal_config)
+            else:
+                print("Enter valid command arguments !Usage : python bw.py <method> <problem file> <solution file>")
+                exit(0)
 
-        initial_state = BlockState(begin_config, len(begin_config), objects)
-        start_time = time.time( )
+            moves = s.calculate_path_to_goal(state)
+            write_in_file(moves, file_to_write)
 
-        state, nodes, max_depth = s.dfs_search(initial_state, goal_config)
-        print(state.config)
-        moves, intmoves = s.calculate_path_to_goal(state)
-        valid = s.is_valid(initial_state, moves, goal_config)
-        print(moves )
-        print( intmoves , nodes)
-        print(time.time()-start_time)
-        if valid:
-            print('valid')
-        else:
-            print('no valid')
+            print("cost_of_path:", state.cost)
+            print("nodes_expanded:", nodes)
+            print("max_search_depth:", max_depth)
+            print("running_time:", running_time)
 
-
-
-    '''
-    if sm == "bfs":
-
-      pass
-
-    elif sm == "dfs":
-
-        pass
-
-    elif sm == "ast":
-
-        pass
-    else:
-
-        print("Enter valid command arguments !")
-    '''
+            valid = s.is_valid(initial_state, moves, goal_config)
+            if valid:
+                print('Valid solution')
+            else:
+                print('No valid solution')
+    except EnvironmentError:
+        print("File not found!")
 
 
 if __name__ == '__main__':
-    main( )
+    main()

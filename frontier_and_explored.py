@@ -6,16 +6,14 @@ class Frontier(object):
 
     def __init__(self):
 
+        'FIFO'
+        self.queue = deque()
 
-            'FIFO'
-            self.queue = deque()
+        'LIFO'
+        self.stack = deque()
 
-
-            'LIFO'
-            self.stack = deque()
-
-            'PRIORITY QUEUE'
-            self.heap = []
+        'PRIORITY QUEUE'
+        self.heap = []
 
     def __contains__(self, item):
 
