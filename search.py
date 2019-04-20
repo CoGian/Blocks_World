@@ -195,7 +195,7 @@ def best_first_search(initial_state, goal_config):
             # check if the state is goal state
             if state.config == goal_config:
                 print("SUCCESS")
-                return state, nodes, max_depth
+                return state, nodes, max_depth, time.time() - start_time
 
             # expand the node
             state.expand()

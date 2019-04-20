@@ -56,7 +56,7 @@ The sequence of moves taken to reach the goal is written in solution file that u
 
 ##### Example: 
 ```bash
-python bw.py astar probBLOCKS-6-1.pddl.txt solution.txt 
+python bw.py astar probBLOCKS-6-1.pddl solution.txt 
 ```
 
 ```bash
