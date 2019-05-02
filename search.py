@@ -204,7 +204,7 @@ def best_first_search(initial_state, goal_config):
 
             for child in state.children:
                 # calculate the cost f for child
-                child.f = h1(child.config, goal_config)
+                child.f = h2(child.config, goal_config)
 
                 # check for duplicates in frontier and frontier
                 if child.config not in entry_finder:
